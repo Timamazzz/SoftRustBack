@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SoftRustBack.Models;
+using System.Security.Cryptography;
 
 namespace SoftRustBack.Controllers
 {
@@ -7,41 +8,31 @@ namespace SoftRustBack.Controllers
     [Route("[controller]")]
     public class MessageFormController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult Get()
+        [HttpPost("Add")]
+        public DTO.Message Add(DTO.Message message)
         {
+            Contact? contact;
+            Topic? topic;
+
             using (ApplicationContext db = new ApplicationContext())
             {
-/*                Contact contact = new Contact { Name = "TestName", Email = "TestEmail@email.com", Phone = "99999999999" };
+                contact = db.Contacts.Where(c=>c.Email==message.Email && c.Phone==message.Phone).SingleOrDefault();
+                
+                if(contact==null)
+                    contact = new Contact { Name=message.Contact_name, Email=message.Email, Phone=message.Phone };
                 db.Contacts.Add(contact);
 
-                Topic topic = new Topic { Name = "Техподдержка" };
-                Topic topic2 = new Topic { Name = "Продажи" };
-                Topic topic3 = new Topic { Name = "Другое" };
-                db.Topics.AddRange(topic, topic2, topic3);
+                topic = db.Topics.FirstOrDefault(t => t.Name == message.Topic_name);
 
-                Message message = new Message { Text = "TestMessageText", Contact = contact, Topic = topic };
-                db.Messages.Add(message);
+                if (topic == null)
+                    topic = new Topic { Name = message.Topic_name };
+                db.Topics.Add(topic);
 
-                db.SaveChanges();*/
+                db.Messages.Add(new Message { Contact = contact, Text = message.Text, Topic = topic });
 
-/*                var messages = db.Messages.ToList();
-                for (int i = 0; i < messages.Count; i++) {
-                    db.Messages.Remove(messages[i]);
-                }
-                var topics = db.Topics.ToList();
-                for (int i = 0; i < topics.Count; i++)
-                {
-                    db.Topics.Remove(topics[i]);
-                }
-                var contacts = db.Contacts.ToList();
-                for (int i = 0; i < contacts.Count; i++)
-                {
-                    db.Contacts.Remove(contacts[i]);
-                }
-                db.SaveChanges();*/
+                db.SaveChanges();
             }
-            return Ok("Database changed");
+            return message;
         }
     }
 }
