@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SoftRustBack.Controllers.Services.Validators;
 using SoftRustBack.Models;
+using SoftRustBack.DTO;
 
 namespace SoftRustBack.Controllers
 {
@@ -8,15 +10,16 @@ namespace SoftRustBack.Controllers
     [ApiController]
     public class ContactsController : ControllerBase
     {
-        // POST: /Contact
-        [HttpPost("")]
-        public IActionResult Post(String Email, String Phone)
+        [HttpPost("isValid")]
+        public IActionResult isValid([FromBody] DTO.Contact contact)
         {
-            return Ok();
-        }
-        public IActionResult Post(String Name, String Email, String Phone)
-        {
-            return Ok();
+            string response = "";
+            if (NameValidator.isName(contact.Name) && EmailValidator.isEmail(contact.Email) && PhoneValidator.IsPhoneNumber(contact.Phone))
+                response = "Everything is fine";
+            else
+                response = "Invalid email or phone number";
+
+            return Ok(response);
         }
     }
 }
