@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SoftRustBack.Models;
-using System.Security.Cryptography;
+using SoftRustBack.Application;
+
 
 namespace SoftRustBack.Controllers
 {
@@ -8,36 +8,61 @@ namespace SoftRustBack.Controllers
     [Route("[controller]")]
     public class MessagesController : ControllerBase
     {
-        [HttpPost("Add")]
-        public DTO.Message Add(DTO.Message message)
+        private readonly MessageService _service;
+        public MessagesController(MessageService service)
+        { 
+            _service = service;
+        }
+        [HttpPost("add")]
+        public ActionResult<int> Add([FromForm] DTO.Message message)
         {
-            Contact? contact;
-            Topic? topic;
+            int id = _service.Add(message);
+            if (id >= 0)
+                return id;
+            else
+                return BadRequest();
+        }
 
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                contact = db.Contacts.Where(c=>c.Email==message.Email && c.Phone==message.Phone).SingleOrDefault();
+        [HttpGet("getall")]
+        public ActionResult<IEnumerable<DTO.Message>> GetAll()
+        {
+            List<DTO.Message>? messages = _service.GetAll();
+            if (messages == null)
+                return NotFound();
 
-                if (contact == null)
-                {
-                    contact = new Contact { Name = message.Contact_name, Email = message.Email, Phone = message.Phone };
-                    db.Contacts.Add(contact);
-                }
+            return messages;
+        }
 
-                topic = db.Topics.FirstOrDefault(t => t.Name == message.Topic_name);
+        [HttpGet("{id}")]
+        public ActionResult<DTO.Message> GetById(int id)
+        {
+            DTO.Message? message = _service.GetById(id);
 
-                if (topic == null)
-                {
-                    topic = new Topic { Name = message.Topic_name };
-                    db.Topics.Add(topic);
+            if (message == null)
+                return NotFound();
 
-                }
-
-                db.Messages.Add(new Message { Contact = contact, Text = message.Text, Topic = topic });
-
-                db.SaveChanges();
-            }
             return message;
+        }
+
+        [HttpPatch("{id}")]
+        public IActionResult Update(int id, [FromForm]DTO.Message messageDTO)
+        {
+            string response = _service.Update(id, messageDTO);
+            if (response != "Ok")
+                return BadRequest(response);
+            else
+                return Ok();
+
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            string response = _service.Delete(id);
+            if (response == "Ok")
+                return Ok();
+            else
+                return BadRequest(response);
         }
     }
 }
