@@ -12,22 +12,22 @@ namespace SoftRustBack.DTO.Repositories
         {
             _context = context;
         }
+
         public int Create(Topic topicDTO)
         {
             Models.Topic? topic = new Models.Topic { Name = topicDTO.Name };
-            if (topic == null)
-            {
-                return -1;
-            }
+
             _context.Topics.Add(topic);
             _context.SaveChanges();
 
             return topic.Id;
         }
+
         public List<Models.Topic> GetAll()
         {
             return _context.Topics.ToList();
         }
+
         public Models.Topic? GetById(int id)
         {
             Models.Topic? topic = _context.Topics.SingleOrDefault(t => t.Id == id);
@@ -37,6 +37,7 @@ namespace SoftRustBack.DTO.Repositories
 
             return topic;
         }
+
         public string Update(int id, Topic topicDTO)
         {
             Models.Topic? topic = GetById(id);
@@ -49,6 +50,7 @@ namespace SoftRustBack.DTO.Repositories
 
             return "Ok";
         }
+
         public string Delete(int id)
         {
             if (_context.Topics == null)

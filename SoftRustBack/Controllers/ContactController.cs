@@ -9,13 +9,19 @@ namespace SoftRustBack.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class ContactsController : ControllerBase
+    public class ContactController : ControllerBase
     {
-        private readonly ContactsService _service;
-        public ContactsController(ContactsService service)
+        private readonly ContactService _service;
+        public ContactController(ContactService service)
         {
             _service = service;
         }
+
+        /// <summary>
+        /// Добавить новый контакт
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <returns></returns>
         [HttpPost("add")]
         public ActionResult<int> Add([FromForm] DTO.Contact contact)
         {
@@ -25,6 +31,11 @@ namespace SoftRustBack.Controllers
             else
                 return BadRequest();
         }
+
+        /// <summary>
+        /// Получить все контакты
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("getall")]
         public ActionResult<List<DTO.Contact>> GetAll()
         {
@@ -35,6 +46,12 @@ namespace SoftRustBack.Controllers
             }
             return contacts;
         }
+
+        /// <summary>
+        /// Получить новый контакт по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public ActionResult<DTO.Contact> GetById(int id)
         {
@@ -45,6 +62,13 @@ namespace SoftRustBack.Controllers
 
             return contact;
         }
+
+        /// <summary>
+        /// Обновить контакт по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="contact"></param>
+        /// <returns></returns>
         [HttpPatch("{id}")]
         public IActionResult Update(int id, [FromForm] DTO.Contact contact)
         {
@@ -55,6 +79,12 @@ namespace SoftRustBack.Controllers
                 return Ok();
 
         }
+
+        /// <summary>
+        /// Удалить контакт по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

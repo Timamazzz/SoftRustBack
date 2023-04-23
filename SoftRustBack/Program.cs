@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
 using SoftRustBack.Application;
+using SoftRustBack.Application.Filters;
 using SoftRustBack.DTO.Repositories;
 using SoftRustBack.Models;
 
@@ -14,15 +14,19 @@ string? connection = builder.Configuration.GetConnectionString("DefaultConnectio
 // добавляем контекст ApplicationContext в качестве сервиса в приложение
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    //options.Filters.Add(typeof(MyExceptionFilter));
+    options.Filters.Add<MyExceptionFilter>();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.CustomSchemaIds(type => type.ToString());
 });
-builder.Services.AddScoped<ContactsService>();
-builder.Services.AddScoped<TopicsService>();
+builder.Services.AddScoped<ContactService>();
+builder.Services.AddScoped<TopicService>();
 builder.Services.AddScoped<MessageService>();
 builder.Services.AddScoped<TopicRepository>();
 builder.Services.AddScoped<ContactRepository>();

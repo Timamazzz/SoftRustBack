@@ -4,6 +4,11 @@ namespace SoftRustBack.Controllers.Services.Validators
 {
     public class PhoneValidator
     {
+        /// <summary>
+        /// Валидация телефона
+        /// </summary>
+        /// <param name="Phone"></param>
+        /// <returns></returns>
         public static bool IsPhoneNumber(string? Phone)
         {
             if(Phone == null)

@@ -1,18 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SoftRustBack.Controllers.Services.Validators;
+﻿using SoftRustBack.Controllers.Services.Validators;
 using SoftRustBack.DTO.Repositories;
 using SoftRustBack.Models;
 
 namespace SoftRustBack.Application
 {
-    public class ContactsService
+    /// <summary>
+    /// Бизнес логика контактов
+    /// </summary>
+    public class ContactService
     {
         private readonly ContactRepository _repository;
 
-        public ContactsService(ContactRepository repository)
+        /// <summary>
+        /// Подключение репозитория
+        /// </summary>
+        /// <param name="repository"></param>
+        public ContactService(ContactRepository repository)
         {
             _repository = repository;
         }
+
+        /// <summary>
+        /// Создание нового сообщения
+        /// </summary>
+        /// <param name="contactDTO"></param>
+        /// <returns></returns>
         public int Create(DTO.Contact contactDTO) 
         {
             if (IsValid(contactDTO))
@@ -31,6 +43,11 @@ namespace SoftRustBack.Application
             else
                 return -1;
         }
+
+        /// <summary>
+        /// Получение всех сообщений
+        /// </summary>
+        /// <returns></returns>
         public List<DTO.Contact>? GetAll()
         {
             List<Contact> contacts = _repository.GetAll();
@@ -45,6 +62,12 @@ namespace SoftRustBack.Application
             }
             return contactsDTO;
         }
+
+        /// <summary>
+        /// Получение сообщения по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public DTO.Contact? GetById(int id)
         {
             Contact? contact = _repository.GetById(id);
@@ -54,6 +77,12 @@ namespace SoftRustBack.Application
 
             return new DTO.Contact { Id = contact.Id, Name = contact.Name, Email = contact.Email, Phone = contact.Phone };
         }
+
+        /// <summary>
+        /// Получение id сообщения по полученному DTO с фронта
+        /// </summary>
+        /// <param name="contactDTO"></param>
+        /// <returns></returns>
         public int GetByDTO(DTO.Contact contactDTO)
         {
             Contact? contact = _repository.GetByDTO(contactDTO);
@@ -62,6 +91,13 @@ namespace SoftRustBack.Application
             else
                 return contact.Id;
         }
+
+        /// <summary>
+        /// Обновление сообшения по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="contactDTO"></param>
+        /// <returns></returns>
         public string Update(int id, DTO.Contact contactDTO)
         {
             if (IsValid(contactDTO))
@@ -69,10 +105,22 @@ namespace SoftRustBack.Application
             else
                 return "Invalid Data";
         }
+
+        /// <summary>
+        /// Удаление сообщения по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public string Delete(int id)
         {
             return _repository.Delete(id);
         }
+
+        /// <summary>
+        /// Валидация контакта
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <returns></returns>
         public bool IsValid(DTO.Contact contact)
         {
             if (NameValidator.isName(contact.Name) && EmailValidator.isEmail(contact.Email) && PhoneValidator.IsPhoneNumber(contact.Phone))

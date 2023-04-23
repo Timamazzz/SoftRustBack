@@ -3,18 +3,36 @@ using SoftRustBack.Models;
 
 namespace SoftRustBack.Application
 {
-    public class TopicsService
+    /// <summary>
+    /// Бизнес логика тем сообщений
+    /// </summary>
+    public class TopicService
     {
         private readonly TopicRepository _repository;
 
-        public TopicsService(TopicRepository repository)
+        /// <summary>
+        /// Подключение рептозитория
+        /// </summary>
+        /// <param name="repository"></param>
+        public TopicService(TopicRepository repository)
         {
             _repository = repository;
         }
+
+        /// <summary>
+        /// Создание темы
+        /// </summary>
+        /// <param name="topicDTO"></param>
+        /// <returns></returns>
         public int Create(DTO.Topic topicDTO)
         { 
             return _repository.Create(topicDTO);
         }
+
+        /// <summary>
+        /// Получение всех тем
+        /// </summary>
+        /// <returns></returns>
         public List<DTO.Topic>? GetAll()
         {
             List<Topic> topics = _repository.GetAll();
@@ -29,6 +47,12 @@ namespace SoftRustBack.Application
             }
             return topicsDTO;
         }
+
+        /// <summary>
+        /// Получение темы по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public DTO.Topic? GetById(int id)
         {
             Topic? topic = _repository.GetById(id);
@@ -38,10 +62,23 @@ namespace SoftRustBack.Application
 
             return new DTO.Topic { Id = topic.Id, Name = topic.Name };
         }
+
+        /// <summary>
+        /// Обновление темы по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="topicDTO"></param>
+        /// <returns></returns>
         public string Update(int id, DTO.Topic topicDTO)
         {
            return _repository.Update(id, topicDTO);
         }
+
+        /// <summary>
+        /// Удаление темы по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public string Delete(int id)
         {
             return _repository.Delete(id);

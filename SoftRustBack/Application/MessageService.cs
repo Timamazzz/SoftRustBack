@@ -6,20 +6,35 @@ using SoftRustBack.Models;
 
 namespace SoftRustBack.Application
 {
+    /// <summary>
+    /// Юизнес логика сообщений
+    /// </summary>
     public class MessageService
     {
-        private readonly ContactsService _contactsService;
-        private readonly TopicsService _topicsService;
+        private readonly ContactService _contactsService;
+        private readonly TopicService _topicsService;
         private readonly MessageRepository _repository;
 
-
-        public MessageService(ApplicationContext context, ContactsService contactsService, TopicsService topicsService, MessageRepository repository)
+        /// <summary>
+        /// Подключение сервисов и репозитория
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="contactsService"></param>
+        /// <param name="topicsService"></param>
+        /// <param name="repository"></param>
+        public MessageService(ApplicationContext context, ContactService contactsService, TopicService topicsService, MessageRepository repository)
         {
             _contactsService = contactsService;
             _topicsService = topicsService;
             _repository = repository;
         }
-        public int Add(DTO.Message message)
+
+        /// <summary>
+        /// Добавление сообщения
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public int Create(DTO.Message message)
         {
             DTO.Contact contactDTO = new DTO.Contact { Name = message.ContactName, Email = message.Email, Phone = message.Phone };
 
@@ -43,6 +58,11 @@ namespace SoftRustBack.Application
 
             return _repository.Create(new DTO.Message { ContactId = contactId, Text = message.Text, TopicId = topicId });
         }
+
+        /// <summary>
+        /// Полуение всех сообщений
+        /// </summary>
+        /// <returns></returns>
         public List<DTO.Message>? GetAll() 
         {
             List<Message> messages = _repository.GetAll();
@@ -66,6 +86,12 @@ namespace SoftRustBack.Application
             }
             return messagesDTO;
         }
+
+        /// <summary>
+        /// Получение сообщения по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public DTO.Message? GetById(int id) 
         {
             Message? message = _repository.GetById(id);
@@ -75,10 +101,23 @@ namespace SoftRustBack.Application
 
             return new DTO.Message { ContactId = message.ContactId, ContactName = message.Contact?.Name, Email = message.Contact?.Email, Phone = message.Contact?.Phone, Text = message.Text, TopicId = message.TopicId, TopicName = message.Topic?.Name };
         }
+
+        /// <summary>
+        /// Обновлеие сообщения по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="messageDTO"></param>
+        /// <returns></returns>
         public string Update(int id, DTO.Message messageDTO)
         {
             return _repository.Update(id, messageDTO);
         }
+
+        /// <summary>
+        /// Удаление сообщения по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public string Delete(int id)
         {
             return _repository.Delete(id);
