@@ -43,6 +43,7 @@ namespace SoftRustBack.DTO.Repositories
             if (message == null)
                 return "Not found";
 
+            message.ContactId = messageDTO.ContactId;
             message.TopicId = messageDTO.TopicId;
             message.Text = messageDTO.Text;
 

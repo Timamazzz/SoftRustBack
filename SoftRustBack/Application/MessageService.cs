@@ -72,6 +72,7 @@ namespace SoftRustBack.Application
             {
                 messagesDTO.Add(new DTO.Message
                 {
+                    Id = message.Id,
                     ContactId = message.ContactId,
                     ContactName = message.Contact?.Name,
                     Email = message.Contact?.Email,
@@ -96,7 +97,7 @@ namespace SoftRustBack.Application
             if (message == null)
                 return null;
 
-            return new DTO.Message { ContactId = message.ContactId, ContactName = message.Contact?.Name, Email = message.Contact?.Email, Phone = message.Contact?.Phone, Text = message.Text, TopicId = message.TopicId, TopicName = message.Topic?.Name };
+            return new DTO.Message { Id = message.Id, ContactId = message.ContactId, ContactName = message.Contact?.Name, Email = message.Contact?.Email, Phone = message.Contact?.Phone, Text = message.Text, TopicId = message.TopicId, TopicName = message.Topic?.Name };
         }
 
         /// <summary>
