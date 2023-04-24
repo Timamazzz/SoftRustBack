@@ -25,10 +25,10 @@ namespace SoftRustBack.DTO.Repositories
 
         public List<Models.Topic> GetAll()
         {
-            return _context.Topics.ToList();
+            return _context.Topics.OrderBy(topic => topic.Id).ToList();
         }
 
-        public Models.Topic? GetById(int id)
+        public Models.Topic? GetById(int? id)
         {
             Models.Topic? topic = _context.Topics.SingleOrDefault(t => t.Id == id);
 
@@ -38,9 +38,9 @@ namespace SoftRustBack.DTO.Repositories
             return topic;
         }
 
-        public string Update(int id, Topic topicDTO)
+        public string Update(Topic topicDTO)
         {
-            Models.Topic? topic = GetById(id);
+            Models.Topic? topic = GetById(topicDTO.Id);
             if (topic == null)
                 return "Not found";
 

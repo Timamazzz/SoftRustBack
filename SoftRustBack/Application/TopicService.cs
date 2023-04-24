@@ -38,6 +38,7 @@ namespace SoftRustBack.Application
             if (topics == null)
                 return null;
 
+
             List<DTO.Topic> topicsDTO = new List<DTO.Topic>();
             foreach (Topic topic in topics)
             {
@@ -65,9 +66,9 @@ namespace SoftRustBack.Application
         /// </summary>
         /// <param name="id"></param>
         /// <param name="topicDTO"></param>
-        public string Update(int id, DTO.Topic topicDTO)
+        public string Update(DTO.Topic topicDTO)
         {
-           return _repository.Update(id, topicDTO);
+           return _repository.Update(topicDTO);
         }
 
         /// <summary>

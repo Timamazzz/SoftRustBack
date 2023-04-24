@@ -34,7 +34,7 @@ namespace SoftRustBack.Application
                     return _repository.Create(contactDTO);
                 else
                 {
-                    Update(contact_id, contactDTO);
+                    Update(contactDTO);
                     return contact_id;
                 }
                 
@@ -93,10 +93,10 @@ namespace SoftRustBack.Application
         /// </summary>
         /// <param name="id"></param>
         /// <param name="contactDTO"></param>
-        public string Update(int id, DTO.Contact contactDTO)
+        public string Update(DTO.Contact contactDTO)
         {
             if (IsValid(contactDTO))
-                return _repository.Update(id, contactDTO);
+                return _repository.Update(contactDTO);
             else
                 return "Invalid Data";
         }

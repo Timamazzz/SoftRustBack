@@ -19,7 +19,7 @@ namespace SoftRustBack.Controllers
         /// </summary>
         /// <param name="message"></param>
         [HttpPost("add")]
-        public ActionResult<int> Add([FromForm] DTO.Message message)
+        public ActionResult<int> Add([FromBody] DTO.Message message)
         {
             int id = _service.Create(message);
             if (id >= 0)
@@ -57,14 +57,14 @@ namespace SoftRustBack.Controllers
         }
 
         /// <summary>
-        /// Обновить сообщение по id
+        /// Обновить сообщение
         /// </summary>
         /// <param name="id"></param>
         /// <param name="messageDTO"></param>
-        [HttpPatch("{id}")]
-        public IActionResult Update(int id, [FromForm]DTO.Message messageDTO)
+        [HttpPut]
+        public IActionResult Update([FromBody]DTO.Message messageDTO)
         {
-            string response = _service.Update(id, messageDTO);
+            string response = _service.Update(messageDTO);
             if (response != "Ok")
                 return BadRequest(response);
             else

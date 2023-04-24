@@ -26,7 +26,7 @@ namespace SoftRustBack.DTO.Repositories
             return _context.Contacts.ToList();
         }
 
-        public Models.Contact? GetById(int id)
+        public Models.Contact? GetById(int? id)
         {
             Models.Contact? contact = _context.Contacts.SingleOrDefault(c => c.Id == id);
 
@@ -36,9 +36,9 @@ namespace SoftRustBack.DTO.Repositories
             return contact;
         }
 
-        public string Update(int id, Contact contactDTO)
+        public string Update(Contact contactDTO)
         {
-            Models.Contact? contact = GetById(id);
+            Models.Contact? contact = GetById(contactDTO.Id);
             if (contact == null)
                 return "Not found";
 

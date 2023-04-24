@@ -25,16 +25,20 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.CustomSchemaIds(type => type.ToString());
 });
+
 builder.Services.AddScoped<ContactService>();
 builder.Services.AddScoped<TopicService>();
 builder.Services.AddScoped<MessageService>();
+
 builder.Services.AddScoped<TopicRepository>();
 builder.Services.AddScoped<ContactRepository>();
 builder.Services.AddScoped<MessageRepository>();
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-});
+
+builder.Services.AddCors(options => options.AddPolicy("AllowLocalhost", builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod())
+               );
 
 var app = builder.Build();
 
@@ -44,7 +48,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(options => options.AllowAnyOrigin());
+app.UseCors("AllowLocalhost");
 
 app.UseHttpsRedirection();
 

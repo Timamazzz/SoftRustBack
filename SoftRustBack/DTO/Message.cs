@@ -2,6 +2,7 @@
 {
     public class Message
     {
+        public int? Id { get; set; }
         public int? ContactId { get; set; }
         public string? ContactName { get; set; }
         public string? Email { get; set; }

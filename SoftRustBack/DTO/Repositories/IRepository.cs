@@ -4,8 +4,8 @@
     {
         int Create(T_DTO dto);
         List<T_DAL> GetAll();
-        T_DAL? GetById(int id);
-        string Update(int id, T_DTO dto);
+        T_DAL? GetById(int? id);
+        string Update(T_DTO dto);
         string Delete(int id);
     }
 }

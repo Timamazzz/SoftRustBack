@@ -104,9 +104,9 @@ namespace SoftRustBack.Application
         /// </summary>
         /// <param name="id"></param>
         /// <param name="messageDTO"></param>
-        public string Update(int id, DTO.Message messageDTO)
+        public string Update(DTO.Message messageDTO)
         {
-            return _repository.Update(id, messageDTO);
+            return _repository.Update(messageDTO);
         }
 
         /// <summary>

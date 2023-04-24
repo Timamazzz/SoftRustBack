@@ -27,21 +27,19 @@ namespace SoftRustBack.Controllers
         /// </summary>
         /// <param name="topic"></param>
         [HttpPost("add")]
-        public ActionResult<int> Add([FromForm] DTO.Topic topic)
+        public ActionResult<int> Add([FromBody] DTO.Topic topic)
         {
             int id = _service.Create(topic);
             if (id >= 0)
                 return id;
             else
                 return BadRequest();
-
         }
 
         /// <summary>
         /// Получить все темы сообщений
         /// </summary>
         [HttpGet("getall")]
-        [EnableCors("AllowOrigin")]
         public ActionResult<List<DTO.Topic>> GetAll()
         {
             List<DTO.Topic>? topics = _service.GetAll();
@@ -66,19 +64,18 @@ namespace SoftRustBack.Controllers
         }
 
         /// <summary>
-        /// Обновить тему по id
+        /// Обновить тему
         /// </summary>
         /// <param name="id"></param>
         /// <param name="topic"></param>
-        [HttpPatch("{id}")]
-        public IActionResult Update(int id, [FromForm] DTO.Topic topic)
+        [HttpPut]
+        public IActionResult Update([FromBody] DTO.Topic topic)
         {
-            string response = _service.Update(id, topic);
+            string response = _service.Update(topic);
             if (response != "Ok")
                 return BadRequest(response);
             else
                 return Ok();
-
         }
 
         /// <summary>

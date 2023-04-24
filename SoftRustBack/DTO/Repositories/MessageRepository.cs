@@ -27,7 +27,7 @@ namespace SoftRustBack.DTO.Repositories
             return _context.Messages.Include(m => m.Contact).Include(m => m.Topic).ToList();
         }
 
-        public Models.Message? GetById(int id)
+        public Models.Message? GetById(int? id)
         {
             Models.Message? message = _context.Messages.Include(m => m.Contact).Include(m => m.Topic).SingleOrDefault(m => m.Id == id);
 
@@ -37,9 +37,9 @@ namespace SoftRustBack.DTO.Repositories
             return message;
         }
 
-        public string Update(int id, Message messageDTO)
+        public string Update(Message messageDTO)
         {
-            Models.Message? message = GetById(id);
+            Models.Message? message = GetById(messageDTO.Id);
             if (message == null)
                 return "Not found";
 
