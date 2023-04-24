@@ -55,7 +55,7 @@ namespace SoftRustBack.DTO.Repositories
         {
             if (_context.Contacts == null)
             {
-                return $"Contacts is empty";
+                return "Contacts is empty";
             }
             Models.Contact? contact = _context.Contacts.Include(c => c.Messages).SingleOrDefault(c => c.Id == id);
             if (contact == null)

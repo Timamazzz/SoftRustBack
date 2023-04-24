@@ -31,6 +31,10 @@ builder.Services.AddScoped<MessageService>();
 builder.Services.AddScoped<TopicRepository>();
 builder.Services.AddScoped<ContactRepository>();
 builder.Services.AddScoped<MessageRepository>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+});
 
 var app = builder.Build();
 
@@ -40,6 +44,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors(options => options.AllowAnyOrigin());
 
 app.UseHttpsRedirection();
 

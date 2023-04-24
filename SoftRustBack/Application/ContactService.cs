@@ -24,7 +24,6 @@ namespace SoftRustBack.Application
         /// Создание нового сообщения
         /// </summary>
         /// <param name="contactDTO"></param>
-        /// <returns></returns>
         public int Create(DTO.Contact contactDTO) 
         {
             if (IsValid(contactDTO))
@@ -47,7 +46,6 @@ namespace SoftRustBack.Application
         /// <summary>
         /// Получение всех сообщений
         /// </summary>
-        /// <returns></returns>
         public List<DTO.Contact>? GetAll()
         {
             List<Contact> contacts = _repository.GetAll();
@@ -67,7 +65,6 @@ namespace SoftRustBack.Application
         /// Получение сообщения по id
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
         public DTO.Contact? GetById(int id)
         {
             Contact? contact = _repository.GetById(id);
@@ -82,7 +79,6 @@ namespace SoftRustBack.Application
         /// Получение id сообщения по полученному DTO с фронта
         /// </summary>
         /// <param name="contactDTO"></param>
-        /// <returns></returns>
         public int GetByDTO(DTO.Contact contactDTO)
         {
             Contact? contact = _repository.GetByDTO(contactDTO);
@@ -97,7 +93,6 @@ namespace SoftRustBack.Application
         /// </summary>
         /// <param name="id"></param>
         /// <param name="contactDTO"></param>
-        /// <returns></returns>
         public string Update(int id, DTO.Contact contactDTO)
         {
             if (IsValid(contactDTO))
@@ -110,7 +105,6 @@ namespace SoftRustBack.Application
         /// Удаление сообщения по id
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
         public string Delete(int id)
         {
             return _repository.Delete(id);
@@ -120,7 +114,6 @@ namespace SoftRustBack.Application
         /// Валидация контакта
         /// </summary>
         /// <param name="contact"></param>
-        /// <returns></returns>
         public bool IsValid(DTO.Contact contact)
         {
             if (NameValidator.isName(contact.Name) && EmailValidator.isEmail(contact.Email) && PhoneValidator.IsPhoneNumber(contact.Phone))

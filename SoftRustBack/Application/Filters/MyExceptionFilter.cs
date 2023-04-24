@@ -18,6 +18,9 @@ namespace SoftRustBack.Application.Filters
         {
             int statusCode = context.Exception switch
             {
+                ArgumentException => StatusCodes.Status400BadRequest,
+                FormatException => StatusCodes.Status400BadRequest,
+                NullReferenceException => StatusCodes.Status404NotFound,
                 _ => StatusCodes.Status500InternalServerError,
             };
 
@@ -25,7 +28,13 @@ namespace SoftRustBack.Application.Filters
             {
                 ContentType = "application/json",
                 StatusCode = statusCode,
-                Content = JsonSerializer.Serialize($"В методе {context.ActionDescriptor.DisplayName} возникло исключение: \n {context.Exception.Message} \n {context.Exception.StackTrace}")
+                Content = JsonSerializer.Serialize(new ErrorMessageDto
+                {
+                    Key = string.Empty,
+                    Method = context.ActionDescriptor.DisplayName,
+                    Message = context.Exception.Message,
+                    StackTrace = context.Exception.StackTrace
+                })
             };
             context.ExceptionHandled = true;
         }

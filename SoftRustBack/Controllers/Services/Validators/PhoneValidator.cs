@@ -8,7 +8,6 @@ namespace SoftRustBack.Controllers.Services.Validators
         /// Валидация телефона
         /// </summary>
         /// <param name="Phone"></param>
-        /// <returns></returns>
         public static bool IsPhoneNumber(string? Phone)
         {
             if(Phone == null)

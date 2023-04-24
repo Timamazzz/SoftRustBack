@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SoftRustBack.Application;
+using SoftRustBack.DTO;
 using SoftRustBack.Models;
 
 namespace SoftRustBack.Controllers
@@ -24,11 +26,9 @@ namespace SoftRustBack.Controllers
         /// Добавить новую тему сообщения
         /// </summary>
         /// <param name="topic"></param>
-        /// <returns></returns>
         [HttpPost("add")]
         public ActionResult<int> Add([FromForm] DTO.Topic topic)
         {
-
             int id = _service.Create(topic);
             if (id >= 0)
                 return id;
@@ -40,30 +40,29 @@ namespace SoftRustBack.Controllers
         /// <summary>
         /// Получить все темы сообщений
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
         [HttpGet("getall")]
+        [EnableCors("AllowOrigin")]
         public ActionResult<List<DTO.Topic>> GetAll()
         {
-
-            return _service.GetAll();
-            //throw new Exception("Me exception");
+            List<DTO.Topic>? topics = _service.GetAll();
+            if (topics != null)
+                return topics;
+            else
+                return BadRequest();       
         }
 
         /// <summary>
         /// Получить тему по id
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet("{id}")]
         public ActionResult<DTO.Topic> GetById(int id)
         {
             DTO.Topic? topic = _service.GetById(id);
-
-            if (topic == null)
+            if (topic != null)
+                return topic;
+            else
                 return NotFound();
-
-            return topic;
         }
 
         /// <summary>
@@ -71,7 +70,6 @@ namespace SoftRustBack.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="topic"></param>
-        /// <returns></returns>
         [HttpPatch("{id}")]
         public IActionResult Update(int id, [FromForm] DTO.Topic topic)
         {
@@ -87,7 +85,6 @@ namespace SoftRustBack.Controllers
         /// Удалить тему по id
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

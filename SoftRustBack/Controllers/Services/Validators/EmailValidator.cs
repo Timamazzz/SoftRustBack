@@ -8,7 +8,6 @@ namespace SoftRustBack.Controllers.Services.Validators
         /// Валидация email
         /// </summary>
         /// <param name="Email"></param>
-        /// <returns></returns>
         public static bool isEmail(string? Email) 
         {
             if(Email == null)

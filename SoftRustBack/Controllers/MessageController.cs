@@ -18,7 +18,6 @@ namespace SoftRustBack.Controllers
         /// Доавить новое сообшение
         /// </summary>
         /// <param name="message"></param>
-        /// <returns></returns>
         [HttpPost("add")]
         public ActionResult<int> Add([FromForm] DTO.Message message)
         {
@@ -32,7 +31,6 @@ namespace SoftRustBack.Controllers
         /// <summary>
         /// Получить все сообщения
         /// </summary>
-        /// <returns></returns>
         [HttpGet("getall")]
         public ActionResult<IEnumerable<DTO.Message>> GetAll()
         {
@@ -47,7 +45,6 @@ namespace SoftRustBack.Controllers
         /// Получить сообщение по id
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet("{id}")]
         public ActionResult<DTO.Message> GetById(int id)
         {
@@ -64,7 +61,6 @@ namespace SoftRustBack.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="messageDTO"></param>
-        /// <returns></returns>
         [HttpPatch("{id}")]
         public IActionResult Update(int id, [FromForm]DTO.Message messageDTO)
         {
@@ -80,7 +76,6 @@ namespace SoftRustBack.Controllers
         /// Удалить сообщение по id
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
